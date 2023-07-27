@@ -83,7 +83,7 @@ jobs:
     
     - name: Deploy App
       run: |
-        if oc get deployment nodey-app > /dev/null 2>&1; then
+        if oc get deployment -n node-yaml nodey-app > /dev/null 2>&1; then
             echo "Start Build"
             oc start-build nodey-app
           else
