@@ -9,7 +9,7 @@ const server = http.createServer((req, res) => {
     
     res.statusCode = 200;
     
-    res.end('OK WF 1.1');    
+    res.end('OK Yaml 1.0');    
 });
 
 server.listen(port, hostname, () => {
