@@ -5,6 +5,17 @@ metadata:
     app: nodey-app
   name: nodey-app
   namespace: node-yaml
+  annotations:
+    image.openshift.io/triggers: |-
+      [
+        {
+          "from": {
+            "kind": "ImageStreamTag",
+            "name": "nodey-app:latest"
+          },
+          "fieldPath": "spec.template.spec.containers[0].image"
+        }
+      ]
 spec:
   replicas: 2
   selector:
