@@ -35,6 +35,7 @@ metadata:
   labels:
     app: nodey-app
   name: nodey-app
+  namespace: node-yaml
 spec:
   ports:
   - port: 3000
@@ -48,6 +49,7 @@ metadata:
   name: 'ziknode3.com'
   labels:
     app: nodey-app
+  namespace: node-yaml
 spec:
   host: ziknode3.com
   to:
