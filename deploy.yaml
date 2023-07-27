@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: nodey-app
+  name: nodey-app
+  namespace: node-yaml
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nodey-app
+  template:
+    metadata:
+      labels:
+        app: nodey-app
+    spec:
+      containers:
+      - image: nodey-app:latest
+        name: nodey-app
+        ports:
+        - containerPort: 3000
+          protocol: TCP
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: nodey-app
+  name: nodey-app
+spec:
+  ports:
+  - port: 3000
+    targetPort: 3000
+  selector:
+    app: nodey-app
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  name: 'ziknode3.com'
+  labels:
+    app: nodey-app
+spec:
+  host: ziknode3.com
+  to:
+    kind: Service
+    name: nodey-app
+    weight: 100
+  port:
+    targetPort: 3000
+  wildcardPolicy: None
