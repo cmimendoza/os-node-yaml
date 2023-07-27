@@ -85,7 +85,7 @@ jobs:
       run: |
         if oc get deployment -n node-yaml nodey-app > /dev/null 2>&1; then
             echo "Start Build"
-            oc start-build nodey-app
+            oc start-build -n node-yaml nodey-app
           else
             echo "Crea Deployment"
             oc apply -f deploy.yaml
