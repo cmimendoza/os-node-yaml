@@ -1,0 +1,46 @@
+apiVersion: project.openshift.io/v1
+kind: Project
+metadata:
+  name: node-yaml
+---
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  labels:
+    app: nodey-app
+  name: nodey-app
+  namespace: node-yaml
+spec:
+  lookupPolicy:
+    local: true
+---
+apiVersion: build.openshift.io/v1
+kind: BuildConfig
+metadata:
+  name: nodey-app
+  namespace: node-yaml
+  labels:
+    app: nodey-app
+spec:
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/cmimendoza/os-node-yaml.git'
+  strategy:
+    type: Docker
+    dockerStrategy:
+      dockerfilePath: ./Dockerfile
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'nodey-app:latest'
+  triggers:
+  - generic:
+      type: Generic
+      value: pass
+  - github:
+      type: Github
+      value: pass
+  - imageChange:
+    type: ImageChange
+  - type: ConfigChange
